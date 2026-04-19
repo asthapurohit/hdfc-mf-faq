@@ -239,21 +239,6 @@ if "messages" not in st.session_state:
         }
     ]
 
-# DEBUG - remove after fixing
-import os
-base_dir = os.path.dirname(os.path.abspath(__file__))
-chroma_path = os.path.join(base_dir, "data", "chroma_db")
-st.sidebar.write("Base dir:", base_dir)
-st.sidebar.write("Chroma path:", chroma_path)
-st.sidebar.write("Chroma path exists:", os.path.exists(chroma_path))
-st.sidebar.write("data/ contents:", os.listdir(os.path.join(base_dir, "data")) if os.path.exists(os.path.join(base_dir, "data")) else "NOT FOUND")
-try:
-    import chromadb
-    client = chromadb.PersistentClient(path=chroma_path)
-    col = client.get_collection("hdfc_mf_faq")
-    st.sidebar.write("Chunks in DB:", col.count())
-except Exception as e:
-    st.sidebar.write("ChromaDB error:", str(e))
 
 if "chip_query" not in st.session_state:
     st.session_state["chip_query"] = ""
@@ -316,13 +301,31 @@ st.markdown("""
 
 st.markdown("""
 <div class="mobile-chips">
-    <span class="mobile-chip">Flexi Cap expense ratio?</span>
+    <span class="mobile-chip">Flexi Cap TER?</span>
     <span class="mobile-chip">ELSS lock-in?</span>
     <span class="mobile-chip">Top 100 exit load?</span>
     <span class="mobile-chip">Min SIP Mid Cap?</span>
     <span class="mobile-chip">Capital gains Groww?</span>
 </div>
 """, unsafe_allow_html=True)
+
+# MOBILE QUICK QUESTIONS — shown above chat on mobile
+st.markdown('<div class="mobile-quick-wrap">', unsafe_allow_html=True)
+mobile_cols = st.columns(3)
+mobile_questions = [
+    ("Flexi Cap TER?", "What is the expense ratio of HDFC Flexi Cap Fund?"),
+    ("ELSS lock-in?", "What is the lock-in period for HDFC ELSS Tax Saver Fund?"),
+    ("Top 100 exit load?", "What is the exit load for HDFC Top 100 Fund?"),
+    ("Min SIP Mid Cap?", "What is the minimum SIP for HDFC Mid Cap Opportunities Fund?"),
+    ("Small Cap risk?", "What is the riskometer of HDFC Small Cap Fund?"),
+    ("Capital gains Groww?", "How do I download my capital gains statement on Groww?"),
+]
+for i, (label, query) in enumerate(mobile_questions):
+    with mobile_cols[i % 3]:
+        if st.button(label, key=f"mob_{i}", use_container_width=True):
+            st.session_state["chip_query"] = query
+            st.rerun()
+st.markdown('</div>', unsafe_allow_html=True)
 
 # MAIN LAYOUT
 col_chat, col_quick = st.columns([4, 1])
@@ -414,6 +417,14 @@ with col_quick:
 
 st.markdown("""
 <style>
+.disclaimer-bar {
+    background: #fff8e1;
+    border-top: 1px solid #f9a825;
+    padding: 7px 24px;
+    font-size: 11px;
+    color: #7a6000;
+}
+
 .disclaimer-fixed {
     position: fixed;
     bottom: 0;
@@ -425,6 +436,98 @@ st.markdown("""
     font-size: 11px;
     color: #7a6000;
     z-index: 9999;
+}
+
+.desktop-only { display: inline-block; }
+
+.mobile-chips {
+    display: none;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 12px;
+    background: white;
+    border-bottom: 1px solid #e8eaf0;
+}
+.mobile-chip {
+    background: #e6faf5;
+    border: 1px solid #00D09C;
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #007a5a;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.mobile-quick-wrap {
+    display: none;
+}
+.mobile-quick-wrap + div {
+    display: none;
+}
+@media (max-width: 768px) {
+    .mobile-quick-wrap {
+        display: block !important;
+        padding: 8px 12px;
+        background: white;
+        border-bottom: 1px solid #e8eaf0;
+    }
+    .mobile-quick-wrap + div {
+        display: block !important;
+    }
+    div[data-testid="stButton"] button {
+        background: #e6faf5 !important;
+        color: #007a5a !important;
+        border: 1px solid #00D09C !important;
+        border-radius: 20px !important;
+        font-size: 10px !important;
+        padding: 3px 6px !important;
+        font-weight: 600 !important;
+    }
+}
+@media (max-width: 768px) {
+    .desktop-only { display: none !important; }
+    .mobile-chips { display: flex !important; }
+    [data-testid="column"]:last-child { display: none !important; }
+    .top-nav {
+        padding: 8px 12px;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    .nav-logo {
+        font-size: 12px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+    .npill {
+        font-size: 10px !important;
+        padding: 3px 8px !important;
+        white-space: nowrap;
+    }
+    .stats-bar {
+        padding: 8px 12px;
+    }
+    .stats-left { gap: 16px; }
+    .stat-num { font-size: 18px; }
+    .stat-lbl { font-size: 9px; }
+    .stats-right {
+        font-size: 9px;
+        flex-wrap: wrap;
+        gap: 3px;
+        margin-top: 4px;
+    }
+    .scheme-strip { padding: 6px 10px; gap: 6px; }
+    .scheme-chip { min-width: 90px; padding: 4px 8px; }
+    .chip-cat { font-size: 8px; }
+    .chip-name { font-size: 10px; }
+    .disclaimer-fixed { font-size: 10px; padding: 5px 12px; }
 }
 
 @media (max-width: 768px) {
