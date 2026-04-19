@@ -299,33 +299,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="mobile-chips">
-    <span class="mobile-chip">Flexi Cap TER?</span>
-    <span class="mobile-chip">ELSS lock-in?</span>
-    <span class="mobile-chip">Top 100 exit load?</span>
-    <span class="mobile-chip">Min SIP Mid Cap?</span>
-    <span class="mobile-chip">Capital gains Groww?</span>
-</div>
-""", unsafe_allow_html=True)
-
-# MOBILE QUICK QUESTIONS — shown above chat on mobile
-st.markdown('<div class="mobile-quick-wrap">', unsafe_allow_html=True)
-mobile_cols = st.columns(3)
-mobile_questions = [
-    ("Flexi Cap TER?", "What is the expense ratio of HDFC Flexi Cap Fund?"),
-    ("ELSS lock-in?", "What is the lock-in period for HDFC ELSS Tax Saver Fund?"),
-    ("Top 100 exit load?", "What is the exit load for HDFC Top 100 Fund?"),
-    ("Min SIP Mid Cap?", "What is the minimum SIP for HDFC Mid Cap Opportunities Fund?"),
-    ("Small Cap risk?", "What is the riskometer of HDFC Small Cap Fund?"),
-    ("Capital gains Groww?", "How do I download my capital gains statement on Groww?"),
-]
-for i, (label, query) in enumerate(mobile_questions):
-    with mobile_cols[i % 3]:
-        if st.button(label, key=f"mob_{i}", use_container_width=True):
-            st.session_state["chip_query"] = query
-            st.rerun()
-st.markdown('</div>', unsafe_allow_html=True)
 
 # MAIN LAYOUT
 col_chat, col_quick = st.columns([4, 1])
@@ -394,22 +367,43 @@ with col_chat:
         st.rerun()
 
 with col_quick:
-    st.markdown('<div style="padding:14px 12px;background:#f8f9ff;height:100%;">', unsafe_allow_html=True)
-    st.markdown('<p style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Quick Questions</p>', unsafe_allow_html=True)
+    st.markdown("""
+    <div style="padding:14px 12px;background:#f8f9ff;
+    border-left:1px solid #e8eaf0;height:100%;
+    overflow-y:auto;">
+    <p style="font-size:10px;font-weight:700;color:#888;
+    text-transform:uppercase;letter-spacing:0.08em;
+    margin-bottom:12px;">Quick Questions</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     questions = [
-        ("EXPENSE RATIO", "HDFC Flexi Cap expense ratio?", "What is the expense ratio of HDFC Flexi Cap Fund?"),
-        ("LOCK-IN", "ELSS lock-in period?", "What is the lock-in period for HDFC ELSS Tax Saver Fund?"),
-        ("EXIT LOAD", "HDFC Top 100 exit load?", "What is the exit load for HDFC Top 100 Fund?"),
-        ("MIN SIP", "Minimum SIP for Mid Cap?", "What is the minimum SIP for HDFC Mid Cap Opportunities Fund?"),
-        ("RISKOMETER", "HDFC Small Cap risk level?", "What is the riskometer of HDFC Small Cap Fund?"),
-        ("BENCHMARK", "Nifty 50 Index benchmark?", "What is the benchmark of HDFC Nifty 50 Index Fund?"),
-        ("STATEMENTS", "Download capital gains on Groww?", "How do I download my capital gains statement on Groww?"),
+        ("EXPENSE RATIO", "Flexi Cap expense ratio?", 
+         "What is the expense ratio of HDFC Flexi Cap Fund?"),
+        ("LOCK-IN", "ELSS lock-in period?", 
+         "What is the lock-in period for HDFC ELSS Tax Saver Fund?"),
+        ("EXIT LOAD", "Top 100 exit load?", 
+         "What is the exit load for HDFC Top 100 Fund?"),
+        ("MIN SIP", "Min SIP Mid Cap?", 
+         "What is the minimum SIP for HDFC Mid Cap Opportunities Fund?"),
+        ("RISKOMETER", "Small Cap risk level?", 
+         "What is the riskometer of HDFC Small Cap Fund?"),
+        ("BENCHMARK", "Nifty 50 benchmark?", 
+         "What is the benchmark of HDFC Nifty 50 Index Fund?"),
+        ("STATEMENTS", "Capital gains Groww?", 
+         "How do I download my capital gains statement on Groww?"),
     ]
     
     for cat, label, query in questions:
-        st.markdown(f'<p style="font-size:9px;font-weight:700;color:#00897b;text-transform:uppercase;letter-spacing:0.05em;margin:8px 0 2px 0;">{cat}</p>', unsafe_allow_html=True)
-        if st.button(label, key=f"q_{cat}", use_container_width=True):
+        st.markdown(
+            f'<p style="font-size:9px;font-weight:700;'
+            f'color:#00897b;text-transform:uppercase;'
+            f'letter-spacing:0.05em;margin:8px 0 2px 4px;">'
+            f'{cat}</p>',
+            unsafe_allow_html=True
+        )
+        if st.button(label, key=f"q_{cat}", 
+                     use_container_width=True):
             st.session_state["chip_query"] = query
             st.rerun()
     
@@ -417,6 +411,28 @@ with col_quick:
 
 st.markdown("""
 <style>
+.top-nav {
+    padding: 8px 12px;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.nav-logo {
+    font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+.npill {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+    white-space: nowrap;
+}
 .disclaimer-bar {
     background: #fff8e1;
     border-top: 1px solid #f9a825;
@@ -424,7 +440,6 @@ st.markdown("""
     font-size: 11px;
     color: #7a6000;
 }
-
 .disclaimer-fixed {
     position: fixed;
     bottom: 0;
@@ -438,51 +453,10 @@ st.markdown("""
     z-index: 9999;
 }
 
-.desktop-only { display: inline-block; }
-
-.mobile-chips {
-    display: none;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 8px 12px;
-    background: white;
-    border-bottom: 1px solid #e8eaf0;
-}
-.mobile-chip {
-    background: #e6faf5;
-    border: 1px solid #00D09C;
-    border-radius: 20px;
-    padding: 4px 10px;
-    font-size: 11px;
-    color: #007a5a;
-    font-weight: 600;
-    white-space: nowrap;
-    cursor: pointer;
-}
-.mobile-quick-wrap {
-    display: none;
-}
-.mobile-quick-wrap + div {
-    display: none;
-}
 @media (max-width: 768px) {
-    .mobile-quick-wrap {
-        display: block !important;
-        padding: 8px 12px;
-        background: white;
-        border-bottom: 1px solid #e8eaf0;
-    }
-    .mobile-quick-wrap + div {
-        display: block !important;
-    }
-    div[data-testid="stButton"] button {
-        background: #e6faf5 !important;
-        color: #007a5a !important;
-        border: 1px solid #00D09C !important;
-        border-radius: 20px !important;
-        font-size: 10px !important;
-        padding: 3px 6px !important;
-        font-weight: 600 !important;
+    section[data-testid="stVerticalBlock"] > div:last-child 
+    > div[data-testid="column"]:last-child { 
+        display: none !important; 
     }
 }
 @media (max-width: 768px) {
@@ -531,6 +505,9 @@ st.markdown("""
 }
 
 @media (max-width: 768px) {
+    .desktop-only { display: none !important; }
+    .mobile-chips { display: flex !important; }
+    [data-testid="column"]:last-child { display: none !important; }
     .top-nav {
         padding: 8px 12px;
         flex-wrap: wrap;
@@ -577,26 +554,6 @@ st.markdown("""
         display: none !important;
     }
 }
-.mobile-chips {
-    display: none;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 8px 12px;
-    background: white;
-    border-bottom: 1px solid #e8eaf0;
-}
-.mobile-chip {
-    background: #e6faf5;
-    border: 1px solid #00D09C;
-    border-radius: 20px;
-    padding: 4px 10px;
-    font-size: 11px;
-    color: #007a5a;
-    font-weight: 600;
-    white-space: nowrap;
-    cursor: pointer;
-}
-.desktop-only { display: inline-block; }
 
 @media (max-width: 768px) {
     .desktop-only { display: none !important; }
