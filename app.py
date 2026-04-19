@@ -239,6 +239,22 @@ if "messages" not in st.session_state:
         }
     ]
 
+# DEBUG - remove after fixing
+import os
+base_dir = os.path.dirname(os.path.abspath(__file__))
+chroma_path = os.path.join(base_dir, "data", "chroma_db")
+st.sidebar.write("Base dir:", base_dir)
+st.sidebar.write("Chroma path:", chroma_path)
+st.sidebar.write("Chroma path exists:", os.path.exists(chroma_path))
+st.sidebar.write("data/ contents:", os.listdir(os.path.join(base_dir, "data")) if os.path.exists(os.path.join(base_dir, "data")) else "NOT FOUND")
+try:
+    import chromadb
+    client = chromadb.PersistentClient(path=chroma_path)
+    col = client.get_collection("hdfc_mf_faq")
+    st.sidebar.write("Chunks in DB:", col.count())
+except Exception as e:
+    st.sidebar.write("ChromaDB error:", str(e))
+
 if "chip_query" not in st.session_state:
     st.session_state["chip_query"] = ""
 
