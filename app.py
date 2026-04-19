@@ -1,4 +1,6 @@
 import streamlit as st
+import re
+import os
 from src.rag import answer
 from src.prompts import DISCLAIMER
 
@@ -9,18 +11,27 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [
+        {
+            "role": "assistant",
+            "content": "Ask me anything about HDFC Mutual Fund schemes — expense ratio, exit load, minimum SIP, lock-in, benchmark, riskometer, or how to download statements on Groww.",
+        }
+    ]
+
+if "chip_query" not in st.session_state:
+    st.session_state["chip_query"] = ""
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-
 header[data-testid="stHeader"] { display: none; }
 #MainMenu { display: none; }
 footer { display: none; }
 .block-container { padding: 0 !important; max-width: 100% !important; }
 section[data-testid="stAppViewContainer"] { padding: 0 !important; }
-div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
-
+div[data-testid="column"]:last-child { display: none !important; }
 .top-nav {
     background: white;
     border-bottom: 2.5px solid #00D09C;
@@ -36,17 +47,22 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     display: flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-left: auto;
 }
 .npill {
     font-size: 11px;
     font-weight: 600;
-    padding: 3px 10px;
+    padding: 3px 8px;
     border-radius: 20px;
+    white-space: nowrap;
 }
 .npill-groww {
     background: #e6faf5;
@@ -58,6 +74,7 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     background: #fef0f0;
     color: #c0131a;
     border: 1px solid #ED232A;
+    text-decoration: none;
 }
 .npill-rag {
     background: #e8f0fe;
@@ -69,6 +86,9 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     color: #007a5a;
     border: 1px solid #00D09C;
 }
+.desktop-only {
+    display: inline-block;
+}
 
 .stats-bar {
     background: #004C8F;
@@ -77,11 +97,38 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     align-items: center;
     justify-content: space-between;
 }
-.stats-left { display: flex; gap: 32px; }
-.stat-num { font-size: 20px; font-weight: 700; color: #00D09C; }
-.stat-lbl { font-size: 10px; color: #a0b8d4; text-transform: uppercase; letter-spacing: 0.07em; margin-top: 1px; }
-.stats-right { font-size: 11px; color: #a0b8d4; display: flex; align-items: center; gap: 6px; }
-.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #00D09C; display: inline-block; }
+.stats-left {
+    display: flex;
+    gap: 32px;
+}
+.stat-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: #00D09C;
+}
+.stat-lbl {
+    font-size: 10px;
+    color: #a0b8d4;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 1px;
+}
+.stats-right {
+    font-size: 11px;
+    color: #a0b8d4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 4px;
+}
+.live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00D09C;
+    display: inline-block;
+    flex-shrink: 0;
+}
 
 .scheme-strip {
     background: white;
@@ -92,7 +139,15 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     align-items: center;
     overflow-x: auto;
 }
-.strip-label { font-size: 11px; color: #888; font-weight: 600; white-space: nowrap; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+.strip-label {
+    font-size: 11px;
+    color: #888;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-right: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
 .scheme-chip {
     display: flex;
     flex-direction: column;
@@ -103,13 +158,11 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     white-space: nowrap;
     min-width: 130px;
 }
-.chip-cat { font-size: 9px; font-weight: 700; color: #00897b; text-transform: uppercase; letter-spacing: 0.06em; }
-.chip-name { font-size: 11px; font-weight: 600; color: #1a1a2e; margin-top: 2px; }
-
-.main-layout {
-    display: flex;
-    height: calc(100vh - 160px);
-    background: #f4faf8;
+.chip-cat {
+    font-size: 9px;
+}
+.chip-name {
+    font-size: 11px;
 }
 
 .chat-panel {
@@ -128,23 +181,44 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     background: white;
 }
 .bot-avatar {
-    width: 30px; height: 30px; border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     background: #004C8F;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; color: white; font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: white;
+    font-weight: 700;
     flex-shrink: 0;
 }
-.chat-title { font-size: 13px; font-weight: 700; color: #004C8F; }
-.chat-sub { font-size: 10px; color: #00897b; }
-.online-indicator { margin-left: auto; display: flex; align-items: center; gap: 4px; font-size: 10px; color: #00897b; }
+.chat-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #004C8F;
+}
+.chat-sub {
+    font-size: 11px;
+    color: #00897b;
+}
+.online-indicator {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: #00897b;
+}
 
 .chat-messages {
-    flex: 1;
+    height: 420px;
     overflow-y: auto;
     padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    scroll-behavior: smooth;
 }
 .msg-user {
     align-self: flex-end;
@@ -155,7 +229,7 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     border-radius: 14px 14px 2px 14px;
     max-width: 75%;
     line-height: 1.5;
-    box-shadow: 0 2px 8px rgba(0,76,143,0.2);
+    box-shadow: 0 2px 8px rgba(0, 76, 143, 0.2);
 }
 .msg-bot {
     align-self: flex-start;
@@ -180,89 +254,42 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     text-decoration: none;
     border: 1px solid #b3edd9;
 }
-.msg-date { font-size: 10px; color: #aaa; margin-top: 4px; }
-
-.quick-panel {
-    width: 210px;
-    background: #f8f9ff;
-    border-left: 1px solid #e8eaf0;
-    padding: 14px 12px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex-shrink: 0;
-}
-.quick-title {
+.msg-date {
     font-size: 10px;
-    font-weight: 700;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 4px; }
-.quick-card {
-    background: white;
-    border: 1px solid #e8eaf0;
-    border-radius: 8px;
-    padding: 8px 10px;
-    font-size: 11px;
-    color: #1a1a2e;
-    line-height: 1.4;
-    cursor: pointer;
+    color: #aaa;
+    margin-top: 4px;
 }
-.quick-card:hover { border-color: #00D09C; }
-.quick-cat {
-    font-size: 9px;
-    color: #00897b;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 3px; }
 
-.disclaimer-bar {
+.disclaimer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background: #fff8e1;
     border-top: 1px solid #f9a825;
-    padding: 7px 24px;
+    padding: 6px 24px;
     font-size: 11px;
     color: #7a6000;
+    z-index: 9999;
 }
 </style>
 """, unsafe_allow_html=True)
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [
-        {
-            "role": "assistant",
-            "content": "Ask me anything about HDFC Mutual Fund schemes — expense ratio, exit load, minimum SIP, lock-in, benchmark, riskometer, or how to download statements on Groww.",
-            "source": None,
-            "date": None
-        }
-    ]
-
-
-if "chip_query" not in st.session_state:
-    st.session_state["chip_query"] = ""
-
+# HEADER
 st.markdown("""
 <div class="top-nav">
-    <div class="nav-logo">
-        &#128202; HDFC MF FAQ Assistant
-    </div>
+    <div class="nav-logo"> HDFC MF FAQ Assistant</div>
     <div class="nav-right">
-        <span style="font-size:10px;color:#888;white-space:nowrap;">
-            Powered by
-        </span>
-        <a href="https://groww.in/mutual-funds/amc/hdfc-mutual-funds" 
-           target="_blank" style="text-decoration:none;">
-            <span class="npill npill-groww">&#8599; Groww</span>
+        <span style="font-size:10px;color:#888;">Powered by</span>
+        <a href="https://groww.in/mutual-funds/amc/hdfc-mutual-funds" target="_blank" style="text-decoration:none;">
+            <span class="npill npill-groww"> Groww</span>
         </a>
         <span style="font-size:11px;color:#ccc;">×</span>
-        <a href="https://www.hdfcfund.com" 
-           target="_blank" style="text-decoration:none;">
-            <span class="npill npill-hdfc">&#8599; HDFC MF</span>
+        <a href="https://www.hdfcfund.com" target="_blank" style="text-decoration:none;">
+            <span class="npill npill-hdfc"> HDFC MF</span>
         </a>
-        <span class="npill npill-rag desktop-only">&#9889; RAG-Powered</span>
-        <span class="npill npill-facts desktop-only">&#9989; Facts Only</span>
+        <span class="npill npill-rag desktop-only"> RAG-Powered</span>
+        <span class="npill npill-facts desktop-only"> Facts Only</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -277,10 +304,7 @@ st.markdown("""
     </div>
     <div class="stats-right">
         <span class="live-dot"></span>
-        Sources last checked: Apr 2026 &nbsp;·&nbsp;
-        No investment advice &nbsp;·&nbsp;
-        Every answer cited &nbsp;·&nbsp;
-        Official sources only
+        Sources last checked: Apr 2026 · No investment advice · Every answer cited · Official sources only
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -299,13 +323,11 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-
 # MAIN LAYOUT
 col_chat, col_quick = st.columns([4, 1])
 
 with col_chat:
     st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
-    
     st.markdown("""
     <div class="chat-top-bar">
         <div class="bot-avatar">MF</div>
@@ -320,7 +342,6 @@ with col_chat:
     """, unsafe_allow_html=True)
 
     # Build chat messages HTML
-    import re
     messages_html = '<div class="chat-messages" id="chat-messages">'
     for message in st.session_state["messages"]:
         if message["role"] == "user":
@@ -332,7 +353,6 @@ with col_chat:
                 parts = content.split("Last updated from sources:")
                 content = parts[0].strip()
                 last_updated = "Last updated from sources:" + parts[1].strip()
-            
             content = re.sub(
                 r'\[([^\]]+)\]\((https?://[^\)]+)\)',
                 r'<a class="msg-source" href="\2" target="_blank"> \1</a>',
@@ -368,12 +388,8 @@ with col_chat:
 
 with col_quick:
     st.markdown("""
-    <div style="padding:14px 12px;background:#f8f9ff;
-    border-left:1px solid #e8eaf0;height:100%;
-    overflow-y:auto;">
-    <p style="font-size:10px;font-weight:700;color:#888;
-    text-transform:uppercase;letter-spacing:0.08em;
-    margin-bottom:12px;">Quick Questions</p>
+    <div style="padding:14px 12px;background:#f8f9ff;height:100%;">
+    <p style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">Quick Questions</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -396,30 +412,17 @@ with col_quick:
     
     for cat, label, query in questions:
         st.markdown(
-            f'<p style="font-size:9px;font-weight:700;'
-            f'color:#00897b;text-transform:uppercase;'
-            f'letter-spacing:0.05em;margin:8px 0 2px 4px;">'
-            f'{cat}</p>',
+            f'<p style="font-size:9px;font-weight:700;color:#00897b;text-transform:uppercase;letter-spacing:0.05em;margin:8px 0 2px 4px;">{cat}</p>',
             unsafe_allow_html=True
         )
-        if st.button(label, key=f"q_{cat}", 
-                     use_container_width=True):
+        if st.button(label, key=f"q_{cat}", use_container_width=True):
             st.session_state["chip_query"] = query
             st.rerun()
     
     st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown("""
-<style>
-.top-nav {
-    padding: 8px 12px;
-    flex-wrap: nowrap;
-    align-items: center;
-}
-.nav-logo {
-    font-size: 12px;
-    white-space: nowrap;
-    flex-shrink: 0;
+# DISCLAIMER
+st.markdown(f"""
 }
 .nav-right {
     display: flex;
