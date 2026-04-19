@@ -9,6 +9,10 @@ from src.prompts import SYSTEM_PROMPT, REFUSAL_MESSAGE, is_refusal
 load_dotenv()
 
 def load_retriever(chroma_path: str):
+    import os
+    if not os.path.isabs(chroma_path):
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        chroma_path = os.path.join(base_dir, "data", "chroma_db")
     """
     Loads the persistent ChromaDB collection "hdfc_mf_faq" 
     from chroma_path.
@@ -161,7 +165,11 @@ Formatting rules (follow exactly):
         print(f"Error calling Groq API: {e}")
         return "Sorry, I could not process your request right now. Please try again later."
 
-def answer(user_query: str, chroma_path: str = "data/chroma_db") -> str:
+def answer(user_query: str, chroma_path: str = None) -> str:
+    if chroma_path is None:
+        import os
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        chroma_path = os.path.join(base_dir, "data", "chroma_db")
     """
     Main function that orchestrates the full RAG pipeline:
     1. Check is_refusal(user_query) from src.prompts
