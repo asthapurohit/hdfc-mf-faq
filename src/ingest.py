@@ -3,7 +3,6 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from sentence_transformers import SentenceTransformer
 import chromadb
 from chromadb.config import Settings
 
@@ -101,93 +100,57 @@ def chunk_text(text: str, source_meta: dict) -> list[dict]:
     return chunk_dicts
 
 def embed_and_store(chunks: list[dict], chroma_path: str):
-    """
-    Uses sentence-transformers "all-MiniLM-L6-v2" to embed chunk["text"]
-    Stores in ChromaDB (persistent) at chroma_path
-    Collection name: "hdfc_mf_faq"
-    Each document stored with:
-      - document: chunk["text"]
-      - embedding: the embedding vector
-      - metadata: {source_url, scheme_name, topic, last_checked}
-      - id: "chunk_{index}" (auto-incremented across all chunks)
-    Prints progress every 10 chunks.
-    """
     if not chunks:
         print("No chunks to store")
         return
     
-    # Initialize embedding model
-    print("Loading embedding model...")
-    model = SentenceTransformer('all-MiniLM-L6-v2')
-    
-    # Initialize ChromaDB with persistent storage
     client = chromadb.PersistentClient(path=chroma_path)
     
-    # Get or create collection
-    try:
-        collection = client.get_collection("hdfc_mf_faq")
-        print("Using existing collection")
-    except:
-        collection = client.create_collection("hdfc_mf_faq")
-        print("Created new collection")
-    
-    # Process chunks in batches
-    batch_size = 10
-    total_chunks = len(chunks)
-    
-    for i in range(0, total_chunks, batch_size):
-        batch = chunks[i:i + batch_size]
-        
-        # Extract texts and metadata
-        texts = [chunk["text"] for chunk in batch]
-        metadatas = []
-        ids = []
-        
-        for j, chunk in enumerate(batch):
-            metadata = {
-                "source_url": chunk["source_url"],
-                "scheme_name": chunk["scheme_name"],
-                "topic": chunk["topic"],
-                "last_checked": chunk["last_checked"]
-            }
-            metadatas.append(metadata)
-            ids.append(f"chunk_{i + j}")
-        
-        # Generate embeddings
-        embeddings = model.encode(texts).tolist()
-        
-        # Add to collection
-        collection.add(
-            documents=texts,
-            embeddings=embeddings,
-            metadatas=metadatas,
-            ids=ids
-        )
-        
-        # Print progress
-        processed = min(i + batch_size, total_chunks)
-        print(f"Processed {processed}/{total_chunks} chunks")
-    
-    print(f"Stored {total_chunks} chunks in ChromaDB")
-
-def ingest_knowledge_base(chroma_path: str):
-    from src.knowledge_base import KNOWLEDGE_BASE
-    
-    print("Loading embedding model...")
-    model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
-    
-    client = chromadb.PersistentClient(path=chroma_path)
-    
-    # Delete existing collection if it exists
     try:
         client.delete_collection("hdfc_mf_faq")
         print("Cleared existing collection")
     except:
         pass
     
-    # Create fresh collection
-    collection = client.create_collection("hdfc_mf_faq")
-    print("Created fresh collection")
+    collection = client.create_collection(
+        name="hdfc_mf_faq",
+        embedding_function=chromadb.utils.embedding_functions.DefaultEmbeddingFunction()
+    )
+    
+    texts = [chunk["text"] for chunk in chunks]
+    metadatas = [
+        {
+            "source_url": chunk["source_url"],
+            "scheme_name": chunk["scheme_name"],
+            "topic": chunk["topic"],
+            "last_checked": chunk["last_checked"]
+        }
+        for chunk in chunks
+    ]
+    ids = [f"chunk_{i}" for i in range(len(chunks))]
+    
+    collection.add(
+        documents=texts,
+        metadatas=metadatas,
+        ids=ids
+    )
+    print(f"Stored {len(chunks)} chunks in ChromaDB")
+
+def ingest_knowledge_base(chroma_path: str):
+    from src.knowledge_base import KNOWLEDGE_BASE
+    
+    client = chromadb.PersistentClient(path=chroma_path)
+    
+    try:
+        client.delete_collection("hdfc_mf_faq")
+        print("Cleared existing collection")
+    except:
+        pass
+    
+    collection = client.create_collection(
+        name="hdfc_mf_faq",
+        embedding_function=chromadb.utils.embedding_functions.DefaultEmbeddingFunction()
+    )
     
     texts = [item["text"] for item in KNOWLEDGE_BASE]
     metadatas = [
@@ -200,11 +163,9 @@ def ingest_knowledge_base(chroma_path: str):
         for item in KNOWLEDGE_BASE
     ]
     ids = [f"kb_{i}" for i in range(len(KNOWLEDGE_BASE))]
-    embeddings = model.encode(texts).tolist()
     
     collection.add(
         documents=texts,
-        embeddings=embeddings,
         metadatas=metadatas,
         ids=ids
     )

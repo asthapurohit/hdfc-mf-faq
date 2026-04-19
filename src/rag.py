@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 import chromadb
-from sentence_transformers import SentenceTransformer
 from groq import Groq
 from src.prompts import SYSTEM_PROMPT, REFUSAL_MESSAGE, is_refusal
 
@@ -13,72 +12,39 @@ def load_retriever(chroma_path: str):
     if not os.path.isabs(chroma_path):
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         chroma_path = os.path.join(base_dir, "data", "chroma_db")
-    """
-    Loads the persistent ChromaDB collection "hdfc_mf_faq" 
-    from chroma_path.
-    Returns the collection object.
-    If collection does not exist or is empty, raises a clear 
-    RuntimeError with message:
-    "Vector DB not found. Please run src/ingest.py first."
-    """
+    
     try:
-        # Initialize ChromaDB client
         client = chromadb.PersistentClient(path=chroma_path)
-        
-        # Get the collection
-        collection = client.get_collection("hdfc_mf_faq")
-        
-        # Check if collection has any documents
+        collection = client.get_collection(
+            name="hdfc_mf_faq",
+            embedding_function=chromadb.utils.embedding_functions.DefaultEmbeddingFunction()
+        )
         count = collection.count()
         if count == 0:
-            raise RuntimeError("Vector DB not found. Please run src/ingest.py first.")
-        
+            raise RuntimeError("Vector DB is empty. Please run ingest first.")
         print(f"Loaded retriever with {count} documents")
         return collection
-        
-    except chromadb.errors.CollectionNotFoundError:
-        raise RuntimeError("Vector DB not found. Please run src/ingest.py first.")
     except Exception as e:
         raise RuntimeError(f"Error loading vector DB: {e}")
 
 def retrieve_chunks(query: str, collection, top_k: int = 4) -> list[dict]:
-    """
-    Embeds the query using sentence-transformers "all-MiniLM-L6-v2"
-    Queries the ChromaDB collection for top_k most similar chunks.
-    Returns a list of dicts, each with:
-      - "text": the chunk document text
-      - "source_url": from metadata
-      - "scheme_name": from metadata
-      - "topic": from metadata
-      - "last_checked": from metadata
-    """
-    # Initialize embedding model
-    model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
-    
-    # Embed the query
-    query_embedding = model.encode([query]).tolist()
-    
-    # Query the collection
     results = collection.query(
-        query_embeddings=query_embedding,
+        query_texts=[query],
         n_results=top_k,
         include=["documents", "metadatas"]
     )
     
-    # Format results into list of dicts
     chunks = []
     if results['documents'] and results['documents'][0]:
         for i, doc in enumerate(results['documents'][0]):
             metadata = results['metadatas'][0][i]
-            chunk_dict = {
+            chunks.append({
                 "text": doc,
                 "source_url": metadata.get("source_url", ""),
                 "scheme_name": metadata.get("scheme_name", ""),
                 "topic": metadata.get("topic", ""),
                 "last_checked": metadata.get("last_checked", "")
-            }
-            chunks.append(chunk_dict)
-    
+            })
     return chunks
 
 def build_context(chunks: list[dict]) -> str:

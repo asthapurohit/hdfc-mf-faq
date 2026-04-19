@@ -6,9 +6,5 @@ requests
 beautifulsoup4
 langchain-text-splitters
 protobuf==4.25.3
-grpcio==1.62.2
-opentelemetry-api==1.23.0
-opentelemetry-sdk==1.23.0
-opentelemetry-exporter-otlp-proto-grpc==1.23.0
-torch==2.2.2+cpu --extra-index-url https://download.pytorch.org/whl/cpu
-sentence-transformers==2.7.0
+onnxruntime
+tokenizers
