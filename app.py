@@ -264,6 +264,9 @@ st.markdown("""
         &#128202; HDFC MF FAQ Assistant
     </div>
     <div class="nav-right">
+        <span style="font-size:10px;color:#888;white-space:nowrap;">
+            Powered by
+        </span>
         <a href="https://groww.in/mutual-funds/amc/hdfc-mutual-funds" 
            target="_blank" style="text-decoration:none;">
             <span class="npill npill-groww">&#8599; Groww</span>
@@ -273,8 +276,8 @@ st.markdown("""
            target="_blank" style="text-decoration:none;">
             <span class="npill npill-hdfc">&#8599; HDFC MF</span>
         </a>
-        <span class="npill npill-rag" style="display:none !important;">&#9889; RAG-Powered</span>
-        <span class="npill npill-facts" style="display:none !important;">&#9989; Facts Only</span>
+        <span class="npill npill-rag desktop-only">&#9889; RAG-Powered</span>
+        <span class="npill npill-facts desktop-only">&#9989; Facts Only</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -308,6 +311,16 @@ st.markdown("""
     <div class="scheme-chip"><span class="chip-cat">Small Cap</span><span class="chip-name">HDFC Small Cap Fund</span></div>
     <div class="scheme-chip"><span class="chip-cat">Hybrid</span><span class="chip-name">HDFC Balanced Adv.</span></div>
     <div class="scheme-chip"><span class="chip-cat">Index · Passive</span><span class="chip-name">HDFC Nifty 50 Index</span></div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="mobile-chips">
+    <span class="mobile-chip">Flexi Cap expense ratio?</span>
+    <span class="mobile-chip">ELSS lock-in?</span>
+    <span class="mobile-chip">Top 100 exit load?</span>
+    <span class="mobile-chip">Min SIP Mid Cap?</span>
+    <span class="mobile-chip">Capital gains Groww?</span>
 </div>
 """, unsafe_allow_html=True)
 
@@ -446,6 +459,73 @@ st.markdown("""
     .scheme-chip {
         min-width: 100px;
         padding: 4px 8px;
+    }
+    /* Hide quick panel on mobile */
+    [data-testid="column"]:last-child {
+        display: none !important;
+    }
+    /* Show mobile chips instead */
+    .mobile-chips {
+        display: flex !important;
+    }
+}
+@media (min-width: 769px) {
+    .mobile-chips {
+        display: none !important;
+    }
+}
+.mobile-chips {
+    display: none;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 12px;
+    background: white;
+    border-bottom: 1px solid #e8eaf0;
+}
+.mobile-chip {
+    background: #e6faf5;
+    border: 1px solid #00D09C;
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #007a5a;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.desktop-only { display: inline-block; }
+
+@media (max-width: 768px) {
+    .desktop-only { display: none !important; }
+    .top-nav {
+        padding: 8px 12px;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    .nav-logo {
+        font-size: 12px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+    .npill {
+        font-size: 10px !important;
+        padding: 3px 8px !important;
+        white-space: nowrap;
+    }
+    /* Hide quick panel on mobile */
+    [data-testid="column"]:last-child {
+        display: none !important;
+    }
+    /* Show mobile chips instead */
+    .mobile-chips {
+        display: flex !important;
     }
 }
 </style>
