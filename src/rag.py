@@ -53,7 +53,7 @@ def retrieve_chunks(query: str, collection, top_k: int = 4) -> list[dict]:
       - "last_checked": from metadata
     """
     # Initialize embedding model
-    model = SentenceTransformer('all-MiniLM-L6-v2')
+    model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
     
     # Embed the query
     query_embedding = model.encode([query]).tolist()

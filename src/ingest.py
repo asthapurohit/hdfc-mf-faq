@@ -174,7 +174,7 @@ def ingest_knowledge_base(chroma_path: str):
     from src.knowledge_base import KNOWLEDGE_BASE
     
     print("Loading embedding model...")
-    model = SentenceTransformer('all-MiniLM-L6-v2')
+    model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
     
     client = chromadb.PersistentClient(path=chroma_path)
     
