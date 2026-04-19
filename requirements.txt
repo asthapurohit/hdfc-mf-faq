@@ -1,5 +1,5 @@
 streamlit
-chromadb==0.5.23
+chromadb==0.4.24
 groq
 python-dotenv
 requests
@@ -7,3 +7,8 @@ beautifulsoup4
 sentence-transformers
 langchain-text-splitters
 numpy==1.26.4
+protobuf==4.25.3
+grpcio==1.62.2
+opentelemetry-api==1.23.0
+opentelemetry-sdk==1.23.0
+opentelemetry-exporter-otlp-proto-grpc==1.23.0
