@@ -1,0 +1,360 @@
+KNOWLEDGE_BASE = [
+    # ── HDFC TOP 100 FUND ──────────────────────────────────────
+    {
+        "text": "HDFC Top 100 Fund expense ratio (TER): Direct Plan: 0.59% per annum. Regular Plan: 1.61% per annum. TER is subject to change; check the latest at hdfcfund.com/investor-services/total-expense-ratio.",
+        "source_url": "https://www.hdfcfund.com/investor-services/total-expense-ratio",
+        "scheme_name": "HDFC Top 100 Fund",
+        "topic": "Expense Ratio",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Top 100 Fund exit load: 1% if redeemed or switched out within 1 year from date of allotment. No exit load after 1 year. No entry load or exit load on bonus units.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-top-100-fund/direct",
+        "scheme_name": "HDFC Top 100 Fund",
+        "topic": "Exit Load",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Top 100 Fund minimum investment: Minimum SIP amount is Rs 100. Minimum lumpsum investment is Rs 100. Additional purchases also require a minimum of Rs 100.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-top-100-fund/direct",
+        "scheme_name": "HDFC Top 100 Fund",
+        "topic": "Minimum SIP",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Top 100 Fund riskometer: Very High risk. Suitable for investors seeking long-term capital appreciation investing predominantly in Large-Cap companies.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-top-100-fund/direct",
+        "scheme_name": "HDFC Top 100 Fund",
+        "topic": "Riskometer",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Top 100 Fund benchmark index: NIFTY 100 Total Returns Index (TRI). Additional benchmark: BSE SENSEX Total Returns Index.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-top-100-fund/direct",
+        "scheme_name": "HDFC Top 100 Fund",
+        "topic": "Benchmark",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Top 100 Fund lock-in period: No lock-in period. This is not an ELSS fund. Units can be redeemed on any business day.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-top-100-fund/direct",
+        "scheme_name": "HDFC Top 100 Fund",
+        "topic": "Lock-in Period",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Top 100 Fund SID and KIM documents are available at: https://www.hdfcfund.com/investor-services/fund-documents/sid and https://www.hdfcfund.com/investor-services/fund-documents/kim",
+        "source_url": "https://www.hdfcfund.com/investor-services/fund-documents/sid",
+        "scheme_name": "HDFC Top 100 Fund",
+        "topic": "SID/KIM",
+        "last_checked": "2026-04-19"
+    },
+
+    # ── HDFC FLEXI CAP FUND ────────────────────────────────────
+    {
+        "text": "HDFC Flexi Cap Fund expense ratio (TER): Direct Plan: 0.77% per annum. Regular Plan: 1.59% per annum. TER is subject to change; check the latest at hdfcfund.com/investor-services/total-expense-ratio.",
+        "source_url": "https://www.hdfcfund.com/investor-services/total-expense-ratio",
+        "scheme_name": "HDFC Flexi Cap Fund",
+        "topic": "Expense Ratio",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Flexi Cap Fund exit load: 1% if redeemed or switched out within 1 year from date of allotment. No exit load if redeemed after 1 year. No exit load on bonus units.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct",
+        "scheme_name": "HDFC Flexi Cap Fund",
+        "topic": "Exit Load",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Flexi Cap Fund minimum investment: Minimum SIP amount is Rs 100. Minimum lumpsum investment is Rs 100. Additional purchases also require a minimum of Rs 100.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct",
+        "scheme_name": "HDFC Flexi Cap Fund",
+        "topic": "Minimum SIP",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Flexi Cap Fund riskometer: Very High risk. The fund invests at least 65% of its assets in equity and equity related instruments across large, mid and small cap companies.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct",
+        "scheme_name": "HDFC Flexi Cap Fund",
+        "topic": "Riskometer",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Flexi Cap Fund benchmark index: NIFTY 500 Total Returns Index (TRI). Additional benchmark: BSE 500 TRI.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct",
+        "scheme_name": "HDFC Flexi Cap Fund",
+        "topic": "Benchmark",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Flexi Cap Fund lock-in period: No lock-in period. This is not an ELSS fund. Units can be redeemed on any business day at NAV-based prices.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct",
+        "scheme_name": "HDFC Flexi Cap Fund",
+        "topic": "Lock-in Period",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Flexi Cap Fund SID and KIM documents are available at: https://www.hdfcfund.com/investor-services/fund-documents/sid and https://www.hdfcfund.com/investor-services/fund-documents/kim",
+        "source_url": "https://www.hdfcfund.com/investor-services/fund-documents/sid",
+        "scheme_name": "HDFC Flexi Cap Fund",
+        "topic": "SID/KIM",
+        "last_checked": "2026-04-19"
+    },
+
+    # ── HDFC ELSS TAX SAVER FUND ───────────────────────────────
+    {
+        "text": "HDFC ELSS Tax Saver Fund expense ratio (TER): Direct Plan: 0.77% per annum. Regular Plan: 1.74% per annum. TER is subject to change; check the latest at hdfcfund.com/investor-services/total-expense-ratio.",
+        "source_url": "https://www.hdfcfund.com/investor-services/total-expense-ratio",
+        "scheme_name": "HDFC ELSS Tax Saver Fund",
+        "topic": "Expense Ratio",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC ELSS Tax Saver Fund exit load: Nil. No exit load is applicable on this scheme. However, units are locked in for 3 years from date of allotment.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-elss-tax-saver/direct",
+        "scheme_name": "HDFC ELSS Tax Saver Fund",
+        "topic": "Exit Load",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC ELSS Tax Saver Fund minimum investment: Minimum SIP amount is Rs 500. Minimum lumpsum investment is Rs 500. Additional purchases require a minimum of Rs 500.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-elss-tax-saver/direct",
+        "scheme_name": "HDFC ELSS Tax Saver Fund",
+        "topic": "Minimum SIP",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC ELSS Tax Saver Fund lock-in period: 3 years mandatory lock-in from the date of allotment of each SIP instalment. Units cannot be redeemed before 3 years. This is an Equity Linked Savings Scheme (ELSS) eligible for tax deduction up to Rs 1.5 lakh under Section 80C of the Income Tax Act 1961.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-elss-tax-saver/direct",
+        "scheme_name": "HDFC ELSS Tax Saver Fund",
+        "topic": "Lock-in Period",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC ELSS Tax Saver Fund riskometer: Very High risk. The fund invests 80-100% of its portfolio in equity or equity related instruments across large-cap and mid-cap companies.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-elss-tax-saver/direct",
+        "scheme_name": "HDFC ELSS Tax Saver Fund",
+        "topic": "Riskometer",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC ELSS Tax Saver Fund benchmark index: NIFTY 500 Total Returns Index (TRI). The fund aims to provide long-term capital appreciation along with tax benefits.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-elss-tax-saver/direct",
+        "scheme_name": "HDFC ELSS Tax Saver Fund",
+        "topic": "Benchmark",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC ELSS Tax Saver Fund SID and KIM documents available at: https://www.hdfcfund.com/investor-services/fund-documents/sid and https://www.hdfcfund.com/investor-services/fund-documents/kim",
+        "source_url": "https://www.hdfcfund.com/investor-services/fund-documents/sid",
+        "scheme_name": "HDFC ELSS Tax Saver Fund",
+        "topic": "SID/KIM",
+        "last_checked": "2026-04-19"
+    },
+
+    # ── GROWW PLATFORM ─────────────────────────────────────────
+    {
+        "text": "How to download capital gains statement on Groww app: Open Groww app, tap 'You' at bottom right, select 'SIP & Reports', tap 'Capital Gain', choose the financial year, then tap 'Download'.",
+        "source_url": "https://groww.in/blog/how-to-get-capital-gains-statement-for-mutual-fund-investments",
+        "scheme_name": "Platform – Groww",
+        "topic": "Capital Gains Statement",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "How to download account statement on Groww website: Log in to groww.in, click on your profile, go to 'Reports', select 'Tax Filing' section, choose Capital Gains - Mutual Funds, select the financial year, and click Download.",
+        "source_url": "https://groww.in/blog/how-to-get-capital-gains-statement-for-mutual-fund-investments",
+        "scheme_name": "Platform – Groww",
+        "topic": "Account Statement",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "AMFI (Association of Mutual Funds in India) maintains daily NAVs and scheme information for all mutual funds at amfiindia.com. Investors can verify scheme details, NAVs and fund performance at https://www.amfiindia.com/nav-history-download",
+        "source_url": "https://www.amfiindia.com/investor",
+        "scheme_name": "All Schemes",
+        "topic": "AMFI",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "SEBI investor education resources for mutual funds including riskometer guidelines, expense ratio caps, and investor rights are available at https://www.sebi.gov.in/investors.html",
+        "source_url": "https://www.sebi.gov.in/investors.html",
+        "scheme_name": "All Schemes",
+        "topic": "SEBI",
+        "last_checked": "2026-04-19"
+    },
+
+    # ---- HDFC MID CAP OPPORTUNITIES FUND --------------------
+    {
+        "text": "HDFC Mid Cap Opportunities Fund expense ratio (TER): Direct Plan: 0.77% per annum. Regular Plan: 1.36% per annum. Subject to change; check latest at hdfcfund.com/investor-services/total-expense-ratio.",
+        "source_url": "https://www.hdfcfund.com/investor-services/total-expense-ratio",
+        "scheme_name": "HDFC Mid Cap Opportunities Fund",
+        "topic": "Expense Ratio",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Mid Cap Opportunities Fund exit load: 1% if redeemed or switched out within 1 year from date of allotment. No exit load after 1 year. No exit load on bonus units.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-mid-cap-fund/direct",
+        "scheme_name": "HDFC Mid Cap Opportunities Fund",
+        "topic": "Exit Load",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Mid Cap Opportunities Fund minimum investment: Minimum SIP amount is Rs 100. Minimum lumpsum investment is Rs 100. Additional purchases require a minimum of Rs 100.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-mid-cap-fund/direct",
+        "scheme_name": "HDFC Mid Cap Opportunities Fund",
+        "topic": "Minimum SIP",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Mid Cap Opportunities Fund riskometer: Very High risk. The fund invests at least 65% of its assets in mid-cap companies as per SEBI classification.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-mid-cap-fund/direct",
+        "scheme_name": "HDFC Mid Cap Opportunities Fund",
+        "topic": "Riskometer",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Mid Cap Opportunities Fund benchmark index: NIFTY Midcap 150 Total Returns Index (TRI). The fund seeks to provide long-term capital appreciation by investing predominantly in mid-cap companies.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-mid-cap-fund/direct",
+        "scheme_name": "HDFC Mid Cap Opportunities Fund",
+        "topic": "Benchmark",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Mid Cap Opportunities Fund lock-in period: No lock-in period. Units can be redeemed on any business day at NAV-based prices.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-mid-cap-fund/direct",
+        "scheme_name": "HDFC Mid Cap Opportunities Fund",
+        "topic": "Lock-in Period",
+        "last_checked": "2026-04-19"
+    },
+
+    # ---- HDFC SMALL CAP FUND --------------------------------
+    {
+        "text": "HDFC Small Cap Fund expense ratio (TER): Direct Plan: 0.73% per annum. Regular Plan: 1.57% per annum. Subject to change; check latest at hdfcfund.com/investor-services/total-expense-ratio.",
+        "source_url": "https://www.hdfcfund.com/investor-services/total-expense-ratio",
+        "scheme_name": "HDFC Small Cap Fund",
+        "topic": "Expense Ratio",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Small Cap Fund exit load: 1% if redeemed or switched out within 1 year from date of allotment. No exit load after 1 year from the date of allotment.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-small-cap-fund/direct",
+        "scheme_name": "HDFC Small Cap Fund",
+        "topic": "Exit Load",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Small Cap Fund minimum investment: Minimum SIP amount is Rs 100. Minimum lumpsum investment is Rs 100. Additional purchases require a minimum of Rs 100.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-small-cap-fund/direct",
+        "scheme_name": "HDFC Small Cap Fund",
+        "topic": "Minimum SIP",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Small Cap Fund riskometer: Very High risk. The fund invests predominantly in small-cap companies, ranked 251st and below by market capitalisation as per SEBI classification.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-small-cap-fund/direct",
+        "scheme_name": "HDFC Small Cap Fund",
+        "topic": "Riskometer",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Small Cap Fund benchmark index: NIFTY Smallcap 250 Total Returns Index (TRI). The fund seeks to provide long-term capital appreciation by investing predominantly in small-cap companies.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-small-cap-fund/direct",
+        "scheme_name": "HDFC Small Cap Fund",
+        "topic": "Benchmark",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Small Cap Fund lock-in period: No lock-in period. Units can be redeemed on any business day at NAV-based prices.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-small-cap-fund/direct",
+        "scheme_name": "HDFC Small Cap Fund",
+        "topic": "Lock-in Period",
+        "last_checked": "2026-04-19"
+    },
+
+    # ---- HDFC BALANCED ADVANTAGE FUND ------------------------
+    {
+        "text": "HDFC Balanced Advantage Fund expense ratio (TER): Direct Plan: 0.77% per annum. Regular Plan: 1.45% per annum. Subject to change; check latest at hdfcfund.com/investor-services/total-expense-ratio.",
+        "source_url": "https://www.hdfcfund.com/investor-services/total-expense-ratio",
+        "scheme_name": "HDFC Balanced Advantage Fund",
+        "topic": "Expense Ratio",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Balanced Advantage Fund exit load: 15% of units may be redeemed without exit load from date of allotment. Remaining units: 1% exit load if redeemed within 1 year. No exit load after 1 year.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-balanced-advantage-fund/direct",
+        "scheme_name": "HDFC Balanced Advantage Fund",
+        "topic": "Exit Load",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Balanced Advantage Fund minimum investment: Minimum SIP amount is Rs 100. Minimum lumpsum investment is Rs 100. Additional purchases require a minimum of Rs 100.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-balanced-advantage-fund/direct",
+        "scheme_name": "HDFC Balanced Advantage Fund",
+        "topic": "Minimum SIP",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Balanced Advantage Fund riskometer: Very High risk. This is a dynamic asset allocation / balanced advantage fund that invests in a mix of equity and debt instruments.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-balanced-advantage-fund/direct",
+        "scheme_name": "HDFC Balanced Advantage Fund",
+        "topic": "Riskometer",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Balanced Advantage Fund benchmark index: NIFTY 50 Hybrid Composite Debt 65:35 Index. The fund dynamically manages allocation between equity and debt based on market conditions.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-balanced-advantage-fund/direct",
+        "scheme_name": "HDFC Balanced Advantage Fund",
+        "topic": "Benchmark",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Balanced Advantage Fund lock-in period: No lock-in period. Units can be redeemed on any business day at NAV-based prices.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-balanced-advantage-fund/direct",
+        "scheme_name": "HDFC Balanced Advantage Fund",
+        "topic": "Lock-in Period",
+        "last_checked": "2026-04-19"
+    },
+
+    # ---- HDFC NIFTY 50 INDEX FUND ----------------------------
+    {
+        "text": "HDFC Nifty 50 Index Fund expense ratio (TER): Direct Plan: 0.20% per annum. Regular Plan: 0.40% per annum. One of the lowest cost index funds. Subject to change; check latest at hdfcfund.com/investor-services/total-expense-ratio.",
+        "source_url": "https://www.hdfcfund.com/investor-services/total-expense-ratio",
+        "scheme_name": "HDFC Nifty 50 Index Fund",
+        "topic": "Expense Ratio",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Nifty 50 Index Fund exit load: 0.25% if redeemed within 3 days from date of allotment. No exit load after 3 days. No exit load on bonus units.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-nifty-50-index-fund/direct",
+        "scheme_name": "HDFC Nifty 50 Index Fund",
+        "topic": "Exit Load",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Nifty 50 Index Fund minimum investment: Minimum SIP amount is Rs 100. Minimum lumpsum investment is Rs 100. Additional purchases require a minimum of Rs 100.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-nifty-50-index-fund/direct",
+        "scheme_name": "HDFC Nifty 50 Index Fund",
+        "topic": "Minimum SIP",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Nifty 50 Index Fund riskometer: Very High risk. This is a passively managed index fund that replicates the NIFTY 50 index. Suitable for investors seeking index-linked returns over long term.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-nifty-50-index-fund/direct",
+        "scheme_name": "HDFC Nifty 50 Index Fund",
+        "topic": "Riskometer",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Nifty 50 Index Fund benchmark index: NIFTY 50 Total Returns Index (TRI). Additional benchmark: BSE SENSEX TRI. The fund tracks the Nifty 50 index subject to tracking error.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-nifty-50-index-fund/direct",
+        "scheme_name": "HDFC Nifty 50 Index Fund",
+        "topic": "Benchmark",
+        "last_checked": "2026-04-19"
+    },
+    {
+        "text": "HDFC Nifty 50 Index Fund lock-in period: No lock-in period. Units can be redeemed on any business day. This is a passive index fund with no mandatory holding period.",
+        "source_url": "https://www.hdfcfund.com/explore/mutual-funds/hdfc-nifty-50-index-fund/direct",
+        "scheme_name": "HDFC Nifty 50 Index Fund",
+        "topic": "Lock-in Period",
+        "last_checked": "2026-04-19"
+    },
+]
