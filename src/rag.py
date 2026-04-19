@@ -109,47 +109,32 @@ Content: {chunk['text']}
     return "\n\n".join(context_parts)
 
 def ask_llm(user_query: str, context: str) -> str:
-    """
-    Calls Groq API using the groq Python client with:
-    - model: "llama3-8b-8192"
-    - system: SYSTEM_PROMPT from src.prompts
-    - user message: 
-        "Context from knowledge base:\n{context}\n\nQuestion: {user_query}"
+    api_key = None
     
-    Uses:
-      max_tokens=512
-      temperature=0 (for factual consistency)
-    
-    Loads GROQ_API_KEY from .env using python-dotenv.
-    Returns the assistant's text response as a string.
-    """
     try:
         import streamlit as st
         api_key = st.secrets.get("GROQ_API_KEY", None)
     except Exception:
-        api_key = None
-
+        pass
+    
     if not api_key:
         api_key = os.getenv("GROQ_API_KEY")
-
+    
     if not api_key:
-        return "Configuration error: GROQ_API_KEY not found."
-        
-        # Initialize Groq client
+        return "Configuration error: GROQ_API_KEY not found in secrets or environment."
+    
+    try:
         client = Groq(api_key=api_key)
-        
-        # Build the user message
         user_message = f"""Context from knowledge base:
 {context}
 
 Question: {user_query}
 
-Formatting rules (follow exactly):
+Formatting rules:
 - Answer in 2-3 sentences max.
 - End with source as a markdown hyperlink: [View Source](url)
 - End with: Last updated from sources: [date]"""
         
-        # Call the API
         response = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             max_tokens=512,
@@ -159,8 +144,6 @@ Formatting rules (follow exactly):
                 {"role": "user", "content": user_message}
             ]
         )
-        
-        # Return the response text
         return response.choices[0].message.content
         
     except Exception as e:
