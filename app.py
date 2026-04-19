@@ -378,45 +378,46 @@ with col_chat:
         st.rerun()
 
 with col_quick:
-    st.markdown("""
-    <div class="quick-panel">
-        <div class="quick-title">Quick Questions</div>
-        <div class="quick-card"><div class="quick-cat">Expense Ratio</div>HDFC Flexi Cap expense ratio?</div>
-        <div class="quick-card"><div class="quick-cat">Lock-in</div>ELSS lock-in period?</div>
-        <div class="quick-card"><div class="quick-cat">Exit Load</div>HDFC Top 100 exit load?</div>
-        <div class="quick-card"><div class="quick-cat">Min SIP</div>Minimum SIP for Mid Cap?</div>
-        <div class="quick-card"><div class="quick-cat">Riskometer</div>HDFC Small Cap risk level?</div>
-        <div class="quick-card"><div class="quick-cat">Benchmark</div>Nifty 50 Index benchmark?</div>
-        <div class="quick-card"><div class="quick-cat">Statements</div>Download capital gains on Groww?</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div style="padding:14px 12px;background:#f8f9ff;height:100%;">', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Quick Questions</p>', unsafe_allow_html=True)
     
-    # Functional quick question buttons (hidden visually)
-    if st.button("Expense ratio of HDFC Flexi Cap Fund?", key="q1"):
-        st.session_state["chip_query"] = "What is the expense ratio of HDFC Flexi Cap Fund?"
-        st.rerun()
-    if st.button("What is the ELSS lock-in period?", key="q2"):
-        st.session_state["chip_query"] = "What is the lock-in period for HDFC ELSS Tax Saver Fund?"
-        st.rerun()
-    if st.button("What is the exit load for HDFC Top 100?", key="q3"):
-        st.session_state["chip_query"] = "What is the exit load for HDFC Top 100 Fund?"
-        st.rerun()
-    if st.button("Minimum SIP for HDFC Mid Cap?", key="q4"):
-        st.session_state["chip_query"] = "What is the minimum SIP for HDFC Mid Cap Opportunities Fund?"
-        st.rerun()
-    if st.button("HDFC Small Cap risk level?", key="q5"):
-        st.session_state["chip_query"] = "What is the riskometer of HDFC Small Cap Fund?"
-        st.rerun()
-    if st.button("HDFC Nifty 50 benchmark?", key="q6"):
-        st.session_state["chip_query"] = "What is the benchmark of HDFC Nifty 50 Index Fund?"
-        st.rerun()
-    if st.button("Download capital gains on Groww?", key="q7"):
-        st.session_state["chip_query"] = "How do I download my capital gains statement on Groww?"
-        st.rerun()
+    questions = [
+        ("EXPENSE RATIO", "HDFC Flexi Cap expense ratio?", "What is the expense ratio of HDFC Flexi Cap Fund?"),
+        ("LOCK-IN", "ELSS lock-in period?", "What is the lock-in period for HDFC ELSS Tax Saver Fund?"),
+        ("EXIT LOAD", "HDFC Top 100 exit load?", "What is the exit load for HDFC Top 100 Fund?"),
+        ("MIN SIP", "Minimum SIP for Mid Cap?", "What is the minimum SIP for HDFC Mid Cap Opportunities Fund?"),
+        ("RISKOMETER", "HDFC Small Cap risk level?", "What is the riskometer of HDFC Small Cap Fund?"),
+        ("BENCHMARK", "Nifty 50 Index benchmark?", "What is the benchmark of HDFC Nifty 50 Index Fund?"),
+        ("STATEMENTS", "Download capital gains on Groww?", "How do I download my capital gains statement on Groww?"),
+    ]
+    
+    for cat, label, query in questions:
+        st.markdown(f'<p style="font-size:9px;font-weight:700;color:#00897b;text-transform:uppercase;letter-spacing:0.05em;margin:8px 0 2px 0;">{cat}</p>', unsafe_allow_html=True)
+        if st.button(label, key=f"q_{cat}", use_container_width=True):
+            st.session_state["chip_query"] = query
+            st.rerun()
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
-# DISCLAIMER
-st.markdown(f"""
-<div class="disclaimer-bar">
-     {DISCLAIMER}
+st.markdown("""
+<style>
+.disclaimer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff8e1;
+    border-top: 1px solid #f9a825;
+    padding: 6px 24px;
+    font-size: 11px;
+    color: #7a6000;
+    z-index: 9999;
+}
+</style>
+<div class="disclaimer-fixed">
+    &#9888; Facts-only assistant. No investment advice. 
+    Mutual fund investments are subject to market risks. 
+    Please read all scheme-related documents carefully. 
+    Consult a SEBI-registered advisor before investing.
 </div>
 """, unsafe_allow_html=True)
