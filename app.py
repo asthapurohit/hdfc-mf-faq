@@ -258,23 +258,23 @@ except Exception as e:
 if "chip_query" not in st.session_state:
     st.session_state["chip_query"] = ""
 
-# TOP NAV
 st.markdown("""
 <div class="top-nav">
     <div class="nav-logo">
-        HDFC MF FAQ Assistant
+        &#128202; HDFC MF FAQ Assistant
     </div>
     <div class="nav-right">
-        <span style="font-size:11px;color:#888;">Powered by</span>
-        <a href="https://groww.in/mutual-funds/amc/hdfc-mutual-funds" target="_blank" style="text-decoration:none;">
-            <span class="npill npill-groww">Groww</span>
+        <a href="https://groww.in/mutual-funds/amc/hdfc-mutual-funds" 
+           target="_blank" style="text-decoration:none;">
+            <span class="npill npill-groww">&#8599; Groww</span>
         </a>
         <span style="font-size:11px;color:#ccc;">×</span>
-        <a href="https://www.hdfcfund.com" target="_blank" style="text-decoration:none;">
-            <span class="npill npill-hdfc">HDFC MF</span>
+        <a href="https://www.hdfcfund.com" 
+           target="_blank" style="text-decoration:none;">
+            <span class="npill npill-hdfc">&#8599; HDFC MF</span>
         </a>
-        <span class="npill npill-rag">RAG-Powered</span>
-        <span class="npill npill-facts">Facts Only · No Advice</span>
+        <span class="npill npill-rag" style="display:none !important;">&#9889; RAG-Powered</span>
+        <span class="npill npill-facts" style="display:none !important;">&#9989; Facts Only</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -412,6 +412,41 @@ st.markdown("""
     font-size: 11px;
     color: #7a6000;
     z-index: 9999;
+}
+
+@media (max-width: 768px) {
+    .top-nav {
+        padding: 8px 12px;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .nav-logo {
+        font-size: 13px;
+    }
+    .nav-right {
+        gap: 6px;
+    }
+    .npill {
+        font-size: 10px;
+        padding: 2px 8px;
+    }
+    .stats-bar {
+        padding: 8px 12px;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+    }
+    .stats-left {
+        gap: 16px;
+    }
+    .stat-num { font-size: 16px; }
+    .scheme-strip {
+        padding: 8px 12px;
+    }
+    .scheme-chip {
+        min-width: 100px;
+        padding: 4px 8px;
+    }
 }
 </style>
 <div class="disclaimer-fixed">
