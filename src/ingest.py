@@ -136,39 +136,10 @@ def embed_and_store(chunks: list[dict], chroma_path: str):
     )
     print(f"Stored {len(chunks)} chunks in ChromaDB")
 
-def ingest_knowledge_base(chroma_path: str):
+def ingest_knowledge_base(chroma_path: str = None):
     from src.knowledge_base import KNOWLEDGE_BASE
-    
-    client = chromadb.PersistentClient(path=chroma_path)
-    
-    try:
-        client.delete_collection("hdfc_mf_faq")
-        print("Cleared existing collection")
-    except:
-        pass
-    
-    collection = client.create_collection(
-        name="hdfc_mf_faq",
-        embedding_function=chromadb.utils.embedding_functions.DefaultEmbeddingFunction()
-    )
-    
-    texts = [item["text"] for item in KNOWLEDGE_BASE]
-    metadatas = [
-        {
-            "source_url": item["source_url"],
-            "scheme_name": item["scheme_name"],
-            "topic": item["topic"],
-            "last_checked": item["last_checked"]
-        }
-        for item in KNOWLEDGE_BASE
-    ]
-    ids = [f"kb_{i}" for i in range(len(KNOWLEDGE_BASE))]
-    
-    collection.add(
-        documents=texts,
-        metadatas=metadatas,
-        ids=ids
-    )
+    from src.vector_store import save_store
+    save_store(KNOWLEDGE_BASE)
     print(f"Ingested {len(KNOWLEDGE_BASE)} knowledge base entries")
 
 def main():
