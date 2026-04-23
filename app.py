@@ -194,21 +194,28 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     .top-nav { padding: 8px 12px; }
     .nav-logo { font-size: 12px; }
     .npill { font-size: 10px !important; padding: 2px 7px !important; }
-    .stats-bar { padding: 8px 12px; flex-direction: column; align-items: flex-start; gap: 4px; }
-    .stats-left { gap: 16px; }
-    .stat-num { font-size: 16px; }
-    .stat-lbl { font-size: 9px; }
-    .stats-right { font-size: 9px; margin-top: 2px; }
+    
+    .stats-bar {
+        padding: 8px 12px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+    }
+    .stats-left {
+        gap: 20px !important;
+        width: 100% !important;
+    }
+    .stat-num { font-size: 18px !important; }
+    .stat-lbl { font-size: 9px !important; }
+    .stats-right {
+        display: none !important;
+    }
+    
     .scheme-strip { padding: 6px 10px; }
     .scheme-chip { min-width: 90px; padding: 4px 8px; }
     .chip-cat { font-size: 8px; }
     .chip-name { font-size: 10px; }
     .disclaimer-fixed { font-size: 10px; padding: 5px 12px; }
-    [data-testid="column"]:last-child { display: none !important; }
-    div[data-testid="stButton"] button {
-        font-size: 10px !important;
-        padding: 2px 6px !important;
-    }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -320,24 +327,62 @@ with col_chat:
         st.rerun()
 
 with col_quick:
-    questions = [
-        ("EXPENSE RATIO", "Flexi Cap expense ratio?", "What is the expense ratio of HDFC Flexi Cap Fund?"),
-        ("LOCK-IN", "ELSS lock-in period?", "What is the lock-in period for HDFC ELSS Tax Saver Fund?"),
-        ("EXIT LOAD", "Top 100 exit load?", "What is the exit load for HDFC Top 100 Fund?"),
-        ("MIN SIP", "Min SIP Mid Cap?", "What is the minimum SIP for HDFC Mid Cap Opportunities Fund?"),
-        ("RISKOMETER", "Small Cap risk level?", "What is the riskometer of HDFC Small Cap Fund?"),
-        ("BENCHMARK", "Nifty 50 benchmark?", "What is the benchmark of HDFC Nifty 50 Index Fund?"),
-        ("STATEMENTS", "Capital gains Groww?", "How do I download my capital gains statement on Groww?"),
-    ]
-    st.markdown('<p style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin:14px 0 8px 4px;">Quick Questions</p>', unsafe_allow_html=True)
-    for cat, label, query in questions:
+    # Only render on desktop - detected via screen width workaround
+    # We use st.query_params to detect if mobile was set by JS
+    is_mobile = st.query_params.get("mobile", "false") == "true"
+    
+    if not is_mobile:
+        questions = [
+            ("EXPENSE RATIO", "Flexi Cap expense ratio?", 
+             "What is the expense ratio of HDFC Flexi Cap Fund?"),
+            ("LOCK-IN", "ELSS lock-in period?", 
+             "What is the lock-in period for HDFC ELSS Tax Saver Fund?"),
+            ("EXIT LOAD", "Top 100 exit load?", 
+             "What is the exit load for HDFC Top 100 Fund?"),
+            ("MIN SIP", "Min SIP Mid Cap?", 
+             "What is the minimum SIP for HDFC Mid Cap Opportunities Fund?"),
+            ("RISKOMETER", "Small Cap risk level?", 
+             "What is the riskometer of HDFC Small Cap Fund?"),
+            ("BENCHMARK", "Nifty 50 benchmark?", 
+             "What is the benchmark of HDFC Nifty 50 Index Fund?"),
+            ("STATEMENTS", "Capital gains Groww?", 
+             "How do I download capital gains statement on Groww?"),
+        ]
         st.markdown(
-            f'<p style="font-size:9px;font-weight:700;color:#00897b;text-transform:uppercase;letter-spacing:0.05em;margin:6px 0 2px 2px;">{cat}</p>',
+            '<p style="font-size:10px;font-weight:700;color:#888;'
+            'text-transform:uppercase;letter-spacing:0.08em;'
+            'margin:14px 0 8px 4px;">Quick Questions</p>',
             unsafe_allow_html=True
         )
-        if st.button(label, key=f"q_{cat}", use_container_width=True):
-            st.session_state["chip_query"] = query
-            st.rerun()
+        for cat, label, query in questions:
+            st.markdown(
+                f'<p style="font-size:9px;font-weight:700;color:#00897b;'
+                f'text-transform:uppercase;letter-spacing:0.05em;'
+                f'margin:6px 0 2px 2px;">{cat}</p>',
+                unsafe_allow_html=True
+            )
+            if st.button(label, key=f"q_{cat}", use_container_width=True):
+                st.session_state["chip_query"] = query
+                st.rerun()
+
+st.markdown("""
+<script>
+(function() {
+    function setMobile() {
+        const isMobile = window.innerWidth <= 768;
+        const url = new URL(window.parent.location.href);
+        const current = url.searchParams.get('mobile');
+        const val = isMobile ? 'true' : 'false';
+        if (current !== val) {
+            url.searchParams.set('mobile', val);
+            window.parent.history.replaceState({}, '', url.toString());
+        }
+    }
+    setMobile();
+    window.addEventListener('resize', setMobile);
+})();
+</script>
+""", unsafe_allow_html=True)
 
 # DISCLAIMER
 st.markdown("""
