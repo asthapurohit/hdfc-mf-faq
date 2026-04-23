@@ -216,18 +216,19 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
 # HEADER
 st.markdown("""
 <div class="top-nav">
-    <div class="nav-logo">📊 HDFC MF FAQ Assistant</div>
+    <div class="nav-logo">&#128202; HDFC MF FAQ Assistant</div>
     <div class="nav-right">
-        <span style="font-size:10px;color:#888;">Powered by</span>
-        <a href="https://groww.in/mutual-funds/amc/hdfc-mutual-funds" target="_blank" style="text-decoration:none;">
+        <a href="https://groww.in/mutual-funds/amc/hdfc-mutual-funds" 
+           target="_blank" style="text-decoration:none;">
             <span class="npill npill-groww">&#8599; Groww</span>
         </a>
-        <span style="color:#ccc;">&#215;</span>
-        <a href="https://www.hdfcfund.com" target="_blank" style="text-decoration:none;">
+        <span style="color:#ccc;font-size:11px;">&#215;</span>
+        <a href="https://www.hdfcfund.com" 
+           target="_blank" style="text-decoration:none;">
             <span class="npill npill-hdfc">&#8599; HDFC MF</span>
         </a>
-        <span class="npill npill-rag" style="display:inline-block;">&#9889; RAG-Powered</span>
-        <span class="npill npill-facts" style="display:inline-block;">&#9989; Facts Only</span>
+        <span class="npill npill-rag">&#9889; RAG-Powered</span>
+        <span class="npill npill-facts">&#9989; Facts Only</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
