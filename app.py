@@ -190,7 +190,7 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
 }
 
 @media (max-width: 768px) {
-    .desktop-only { display: none !important; }
+    .npill-rag, .npill-facts { display: none !important; }
     .top-nav { padding: 8px 12px; }
     .nav-logo { font-size: 12px; }
     .npill { font-size: 10px !important; padding: 2px 7px !important; }
@@ -205,21 +205,9 @@ div[data-testid="stAppViewBlockContainer"] { padding: 0 !important; }
     .chip-name { font-size: 10px; }
     .disclaimer-fixed { font-size: 10px; padding: 5px 12px; }
     [data-testid="column"]:last-child { display: none !important; }
-}
-
-.mobile-q-wrap { display: none; }
-@media (max-width: 768px) {
-    .mobile-q-wrap { display: block !important; }
-    .mobile-q-wrap + div { display: block !important; }
     div[data-testid="stButton"] button {
-        background: #e6faf5 !important;
-        color: #007a5a !important;
-        border: 1px solid #00D09C !important;
-        border-radius: 20px !important;
         font-size: 10px !important;
-        padding: 3px 6px !important;
-        font-weight: 600 !important;
-        white-space: nowrap !important;
+        padding: 2px 6px !important;
     }
 }
 </style>
@@ -238,8 +226,8 @@ st.markdown("""
         <a href="https://www.hdfcfund.com" target="_blank" style="text-decoration:none;">
             <span class="npill npill-hdfc">&#8599; HDFC MF</span>
         </a>
-        <span class="npill npill-rag desktop-only">&#9889; RAG-Powered</span>
-        <span class="npill npill-facts desktop-only">&#9989; Facts Only</span>
+        <span class="npill npill-rag" style="display:inline-block;">&#9889; RAG-Powered</span>
+        <span class="npill npill-facts" style="display:inline-block;">&#9989; Facts Only</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -279,40 +267,7 @@ st.markdown("""
 # MAIN LAYOUT
 col_chat, col_quick = st.columns([4, 1])
 
-# Quick questions above chat on mobile
-st.markdown("""
-<style>
-div[data-testid="stHorizontalBlock"] > div:last-child {
-    display: none;
-}
-@media (min-width: 769px) {
-    div[data-testid="stHorizontalBlock"] > div:last-child {
-        display: block !important;
-    }
-}
-</style>
-""", unsafe_allow_html=True)
-
 with col_chat:
-    # Mobile quick questions - only visible on small screens
-    st.markdown('<div class="mobile-q-wrap">', unsafe_allow_html=True)
-    mob_c1, mob_c2, mob_c3 = st.columns(3)
-    mob_questions = [
-        ("Flexi Cap TER?", "What is the expense ratio of HDFC Flexi Cap Fund?"),
-        ("ELSS lock-in?", "What is the lock-in period for HDFC ELSS Tax Saver Fund?"),
-        ("Top 100 exit?", "What is the exit load for HDFC Top 100 Fund?"),
-        ("Min SIP Mid Cap?", "What is the minimum SIP for HDFC Mid Cap Opportunities Fund?"),
-        ("Small Cap risk?", "What is the riskometer of HDFC Small Cap Fund?"),
-        ("Nifty 50 bench?", "What is the benchmark of HDFC Nifty 50 Index Fund?"),
-    ]
-    for i, (lbl, qry) in enumerate(mob_questions):
-        col = [mob_c1, mob_c2, mob_c3][i % 3]
-        with col:
-            if st.button(lbl, key=f"mob_{i}", use_container_width=True):
-                st.session_state["chip_query"] = qry
-                st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
-
     st.markdown("""
     <div class="chat-top-bar">
         <div class="bot-avatar">MF</div>
